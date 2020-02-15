@@ -1,0 +1,24 @@
+version: "3.2"
+services:
+  artemis1:
+    image: "vromero/activemq-artemis:2.11.0"
+    ports:
+      - "8161:8161"
+      - "9404:9404"
+      - "61616:61616"
+      - "5445:5445"
+      - "5672:5672"
+      - "1883:1883"
+    volumes:
+      - "/home/nanga/dev/artemismq/config/artemis1:/var/lib/artemis/etc-override"
+
+  artemis2:
+    image: "vromero/activemq-artemis:2.11.0"
+    ports:
+      - "8261:8161"
+      - "62616:62616"
+    volumes:
+      - "/home/nanga/dev/artemismq/config/artemis2:/var/lib/artemis/etc-override"
+
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration xmlns="urn:activemq" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
+   <core xmlns="urn:activemq:core" xsi:schemaLocation="urn:activemq:core ">
+
+      <name>bubu</name>
+
+      <!-- Connectors -->
+
+      <connectors>
+         <connector name="netty-connector">tcp://artemis2:62616</connector>
+         <!-- connector to the server1 -->
+         <connector name="artemis2-connector">tcp://artemis2:62616</connector>
+      </connectors>
+
+      <!-- Acceptors -->
+      <acceptors>
+         <acceptor name="netty-acceptor">tcp://localhost:61616</acceptor>
+      </acceptors>
+
+      <cluster-connections>
+         <cluster-connection name="my-cluster">
+            <connector-ref>netty-connector</connector-ref>
+            <retry-interval>500</retry-interval>
+            <use-duplicate-detection>true</use-duplicate-detection>
+            <message-load-balancing>STRICT</message-load-balancing>
+            <max-hops>1</max-hops>
+            <static-connectors>
+               <connector-ref>artemis2-connector</connector-ref>
+            </static-connectors>
+         </cluster-connection>
+      </cluster-connections>
+   </core>
+</configuration>
+
+

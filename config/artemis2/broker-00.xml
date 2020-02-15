@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration xmlns="urn:activemq" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
+   <core xmlns="urn:activemq:core" xsi:schemaLocation="urn:activemq:core ">
+
+      <name>cucu</name>
+
+      <!-- Connectors -->
+      <connectors>
+         <connector name="netty-connector">tcp://artemis1:61616</connector>
+         <!-- connector to the server0 -->
+         <connector name="artemis1-connector">tcp://artemis1:61616</connector>
+      </connectors>
+
+      <!-- Acceptors -->
+      <acceptors>
+         <acceptor name="netty-acceptor">tcp://localhost:62616</acceptor>
+
+         <!-- Acceptor for every supported protocol -->
+         <acceptor name="artemis">tcp://0.0.0.0:62616?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;protocols=CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE;useEpoll=true;amqpCredits=1000;amqpLowCredits=300</acceptor>
+
+      </acceptors>
+
+      <!-- Clustering configuration -->
+      <cluster-connections>
+         <cluster-connection name="my-cluster">
+            <connector-ref>netty-connector</connector-ref>
+            <retry-interval>500</retry-interval>
+            <use-duplicate-detection>true</use-duplicate-detection>
+            <message-load-balancing>STRICT</message-load-balancing>
+            <max-hops>1</max-hops>
+            <static-connectors>
+               <connector-ref>artemis1-connector</connector-ref>
+            </static-connectors>
+         </cluster-connection>
+      </cluster-connections>
+
+   </core>
+</configuration>
+
